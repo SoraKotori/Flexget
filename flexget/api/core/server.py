@@ -308,6 +308,7 @@ def reverse_readline(
     """Return the lines of a file in reverse order."""
     segment: str | None = None
     offset = 0
+    encoding = sys.getfilesystemencoding() or 'utf-8'
     if start_byte:
         fh.seek(start_byte)
     else:
@@ -318,7 +319,7 @@ def reverse_readline(
         fh.seek(-offset, os.SEEK_END)
         buf = fh.read(min(remaining_size, buf_size))
         remaining_size -= buf_size
-        lines = buf.decode(sys.getfilesystemencoding()).split('\n')
+        lines = buf.decode(encoding, errors='replace').split('\n')
         # the first line of the buffer is probably not a complete line so
         # we'll save it and append it to the last line of the next buffer
         # we read
