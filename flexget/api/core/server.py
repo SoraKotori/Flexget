@@ -327,7 +327,7 @@ def reverse_readline(
             # if the previous chunk starts right from the beginning of line
             # do not concact the segment to the last line of new chunk
             # instead, yield the segment first
-            if buf[-1] != '\n':
+            if buf and buf[-1:] != b'\n':
                 lines[-1] += segment
             else:
                 yield segment
